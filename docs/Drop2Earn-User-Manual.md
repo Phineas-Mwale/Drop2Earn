@@ -455,6 +455,18 @@ Payout statuses are:
 
 The database blocks payout completion unless the collection is verified and has a completed material handoff.
 
+## Downloading a paid receipt
+
+After an administrator marks a payout as **Paid**:
+
+1. The collector opens the **Dashboard**.
+2. In transaction history, the collector selects **View receipt** beside the paid collection.
+3. The collector reviews the receipt reference, verified material, weight, collection point, amount and payment date.
+4. Select **Download / print receipt**.
+5. Use the browser's print dialog and choose **Save as PDF** to keep a copy on the phone or computer.
+
+The Drop2Earn receipt confirms the payout recorded by the platform. Once mobile-money payments are integrated, the mobile-money provider statement will remain the authoritative record of the actual funds transfer.
+
 ## Exporting operational data
 
 The Admin workspace can export selected datasets as Excel files:

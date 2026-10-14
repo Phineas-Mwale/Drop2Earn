@@ -7,7 +7,6 @@ import { supabase } from "@/lib/supabase";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
-  const [role, setRole] = useState<"collector" | "recycler">("collector");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -59,14 +58,18 @@ export default function LoginPage() {
         .eq("id", data.user.id)
         .single();
 
-      const userRole = profile?.role || role;
+      const userRole = profile?.role;
 
       if (userRole === "recycler") {
         router.push("/recycler");
       } else if (userRole === "verifier" || userRole === "admin") {
         router.push("/verification");
-      } else {
+      } else if (userRole === "collector") {
         router.push("/dashboard");
+      } else {
+        await supabase.auth.signOut();
+        setError("Your account role is not configured. Please contact an administrator.");
+        setLoading(false);
       }
     }
   };
@@ -122,7 +125,7 @@ export default function LoginPage() {
               </h2>
 
               <p className="mt-2 text-gray-600">
-                Choose how you want to use the platform.
+                Your account role is detected automatically from your phone number.
               </p>
             </div>
 
@@ -131,59 +134,6 @@ export default function LoginPage() {
                 {logoutMessage}
               </div>
             )}
-
-            {/* Role selection */}
-            <div className="mt-8 space-y-4">
-              <button
-                type="button"
-                onClick={() => setRole("collector")}
-                className={`w-full rounded-2xl border-2 p-5 text-left transition ${
-                  role === "collector"
-                    ? "border-green-600 bg-green-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="text-3xl">♻️</div>
-
-                  <div>
-                    <h3 className="font-bold text-gray-900">
-                      I&apos;m a Collector
-                    </h3>
-
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
-                      Record recyclable materials you collect and track your
-                      verified collections and earnings.
-                    </p>
-                  </div>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setRole("recycler")}
-                className={`w-full rounded-2xl border-2 p-5 text-left transition ${
-                  role === "recycler"
-                    ? "border-green-600 bg-green-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="text-3xl">🏭</div>
-
-                  <div>
-                    <h3 className="font-bold text-gray-900">
-                      I&apos;m a Recycler
-                    </h3>
-
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
-                      View available recyclable materials and manage verified
-                      supply.
-                    </p>
-                  </div>
-                </div>
-              </button>
-            </div>
 
             {/* FORM */}
             <form onSubmit={handleLogin}>
@@ -260,7 +210,7 @@ export default function LoginPage() {
               >
                 {loading
                   ? "Signing in..."
-                  : `Sign in as ${role === "collector" ? "Collector" : "Recycler"}`}
+                  : "Sign in securely"}
               </button>
             </form>
 

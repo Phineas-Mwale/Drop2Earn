@@ -36,10 +36,12 @@ The application currently supports:
 - Reservation release and re-reservation
 - Pickup requests and admin handoff completion
 - Payout tracking with a completed-handoff requirement
+- Professional paid receipts with print/save-as-PDF support
 - Custom Excel exports for admin operations
 - In-app notifications for verification, pickup, handoff and payout updates
 - Role-protected pages
 - Responsive desktop and mobile navigation
+- Login routing is determined by the saved profile role; users cannot override a verifier, admin, collector or recycler role at sign-in
 
 ## Technology
 

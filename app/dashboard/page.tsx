@@ -16,6 +16,7 @@ type Transaction = {
   location: string;
   status: string;
   payoutStatus: string;
+  paidAt: string | null;
 };
 
 export default function DashboardPage() {
@@ -78,6 +79,7 @@ export default function DashboardPage() {
             location: col.location || "Collection Point",
             status: col.status === "verified" ? "Verified" : "Pending",
             payoutStatus: col.payout_status || "pending",
+            paidAt: col.paid_at || null,
           };
         });
 
@@ -329,6 +331,14 @@ export default function DashboardPage() {
                                 ? "Paid"
                                 : "Pending payout"}
                             </p>
+                            {transaction.payoutStatus === "paid" && (
+                              <Link
+                                href={`/dashboard/receipts/${transaction.id}`}
+                                className="mt-2 inline-flex text-xs font-semibold text-green-700 hover:underline"
+                              >
+                                View receipt
+                              </Link>
+                            )}
                           </div>
                         ) : (
                           <p className="font-medium text-gray-400">
@@ -395,6 +405,14 @@ export default function DashboardPage() {
                                 ? "Paid"
                                 : "Pending payout"}
                             </p>
+                          )}
+                          {transaction.payoutStatus === "paid" && (
+                            <Link
+                              href={`/dashboard/receipts/${transaction.id}`}
+                              className="mt-2 inline-flex text-xs font-semibold text-green-700 hover:underline"
+                            >
+                              View receipt
+                            </Link>
                           )}
                         </div>
                       </div>
